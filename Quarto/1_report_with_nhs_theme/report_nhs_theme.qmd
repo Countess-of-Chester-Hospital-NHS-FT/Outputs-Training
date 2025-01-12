@@ -1,0 +1,296 @@
+---
+title: "Penguins"
+execute:
+  echo: false
+bibliography: references.bib
+format:
+    html:
+        toc: true
+        embed-resources: true
+        # URL options
+        link-external-icon: true
+        link-external-newwindow: true
+        # Reference options
+        citations-hover: true
+        footnotes-hover: true
+        #####################
+        # NHS Theme options #
+        #####################
+        css: "NHS_report_theme.css"
+        callout-appearance: simple
+        callout-collapse: true
+        # Caption options
+        cap-location: bottom
+        # Title options
+        title-block-banner: '#005EB8'
+        backgroundcolor: '#f0f4f5'
+        # Set font
+        mainfont: 'Open Sans'
+---
+
+```{python}
+#| label: library-imports
+
+import pandas as pd
+from palmerpenguins import load_penguins
+import plotly.express as px
+from itables import show
+from great_tables import GT
+```
+
+```{python}
+#| label: data-imports
+
+penguins_df = load_penguins()
+
+# Let's set up a reusable sequence of colours that can give our plotly plots a consistent
+# feel/identity
+# This uses some colours from the NHS identity guidelines that should work well when
+# placed next to each other
+# https://www.england.nhs.uk/nhsidentity/identity-guidelines/colours/
+# If we pass this to something with just a single colour in the plot, it will just take the
+# first colour from the sequence (NHS Blue)
+# If we pass it to a plot that has categories, it will assign colours to categories
+# in the order given in this list
+nhs_colour_sequence = ["#005EB8", "#FFB81C", "#00A499", "#41B6E6", "#AE2573", "#006747"]
+
+```
+
+# Morphology of Penguins of the Antarctic
+
+![](lter_penguins.png)
+
+Introducing a groundbreaking new dataset that promises to revolutionize our understanding of Antarctic penguin species: the Palmer Archipelago Penguin Morphology Dataset. For the first time, researchers have compiled comprehensive measurements of Adelie, Chinstrap, and Gentoo penguins, offering unprecedented insights into these charismatic birds of the Southern Ocean.
+
+This novel collection, gathered over three years of meticulous fieldwork from 2007 to 2009, presents a treasure trove of information on penguin physical characteristics. Led by the esteemed Dr. Kristen Gorman and supported by the Palmer Station Long Term Ecological Research Program, this dataset unveils precise measurements of bill dimensions, flipper lengths, and body masses across multiple islands in the Palmer Archipelago.
+
+The full details of the penguin dataset can be found [here](https://allisonhorst.github.io/palmerpenguins/).
+
+## Explore the Dataset
+
+```{python}
+#| label: full-dataframe-display
+show(
+    penguins_df,
+    buttons=["copyHtml5", "csvHtml5", "excelHtml5"],
+    )
+```
+
+```{python}
+
+px.bar(
+    penguins_df['species'].value_counts(),
+    template="plotly_white",
+    color_discrete_sequence=nhs_colour_sequence
+)
+
+```
+
+```{python}
+
+px.bar(
+    penguins_df['island'].value_counts(),
+    template="plotly_white",
+    color_discrete_sequence=nhs_colour_sequence
+)
+
+```
+
+```{python}
+show(penguins_df[['island', 'species']].value_counts().reset_index())
+```
+
+::: {.grid}
+
+::: {.g-col-6}
+
+```{python}
+
+px.bar(
+    penguins_df[['island', 'species']].value_counts().reset_index(),
+    x='species',
+    y='count',
+    color='island',
+    template="plotly_white",
+    color_discrete_sequence=nhs_colour_sequence
+)
+
+```
+
+:::
+
+::: {.g-col-6}
+
+```{python}
+
+px.bar(
+    penguins_df[['island', 'species']].value_counts().reset_index(),
+    x='island',
+    y='count',
+    color='species',
+    template="plotly_white",
+    color_discrete_sequence=nhs_colour_sequence
+)
+
+```
+
+:::
+
+:::
+
+## Insights into Penguin Morphology
+
+:::{.callout-note collapse="true"}
+### Click here for additional information on the definition of bill depth and bill length
+
+![](culmen_depth.png)
+:::
+
+The relationship between bill length and bill width in Antarctic penguins is an important aspect of their morphology that has been studied extensively. This relationship varies among different penguin species and can provide insights into their ecology and evolution.
+
+```{python}
+#| label: basic-bill-scatterplot
+px.scatter(
+    penguins_df,
+    x="bill_length_mm",
+    y="bill_depth_mm",
+    template="plotly_white",
+    color_discrete_sequence=nhs_colour_sequence
+)
+```
+
+Chinstrap penguins (Pygoscelis antarcticus) exhibit sexual dimorphism in their bill dimensions. Males generally have larger bills than females, with both bill length and bill depth being significantly different between the sexes[@lee2015].
+
+This dimorphism is consistent across different populations, with males having bills that are 5.4% to 11.5% larger than females on average[@polito2024].
+
+### By Sex
+
+The relationship between bill length and bill depth in chinstrap penguins is not linear. A study of 46 adult chinstrap penguins revealed a distinct pattern when plotting bill depth against bill length[@lee2015]. This relationship can be used to differentiate between males and females, as the two sexes tend to cluster separately when these measurements are compared.
+
+
+```{python}
+#| label: bill-scatterplot-chinstrap-sex
+
+px.scatter(
+    penguins_df[penguins_df["species"] == "Chinstrap"],
+    x="bill_length_mm",
+    y="bill_depth_mm",
+    color="sex",
+    template="plotly_white",
+    color_discrete_sequence=nhs_colour_sequence
+)
+```
+
+## Differences in Penguin Bill Measurement By Island
+
+Site-specific differences in both bill length and bill depth have been observed across various islands.
+
+These variations suggest that environmental factors or genetic isolation may influence bill morphology in different populations.
+
+:::{.panel-tabset}
+
+### Biscoe
+
+```{python}
+#| label: bill-scatterplot-island-biscoe
+
+px.scatter(
+    penguins_df[penguins_df["island"] == "Biscoe"],
+    x="bill_length_mm",
+    y="bill_depth_mm",
+    color="species",
+    template="plotly_white",
+    color_discrete_sequence=nhs_colour_sequence
+)
+```
+
+### Dream
+
+```{python}
+#| label: bill-scatterplot-island-dream
+
+px.scatter(
+    penguins_df[penguins_df["island"] == "Dream"],
+    x="bill_length_mm",
+    y="bill_depth_mm",
+    color="species",
+    template="plotly_white",
+    color_discrete_sequence=nhs_colour_sequence
+)
+```
+
+### Torgersen
+
+```{python}
+#| label: bill-scatterplot-island-torgersen
+
+px.scatter(
+    penguins_df[penguins_df["island"] == "Torgersen"],
+    x="bill_length_mm",
+    y="bill_depth_mm",
+    color="species",
+    template="plotly_white",
+    color_discrete_sequence=nhs_colour_sequence
+)
+```
+
+:::
+
+## Morphology Summary
+
+```{python}
+penguin_summary_table_morphology = pd.DataFrame(
+    penguins_df.groupby(['species', 'island']).mean(numeric_only=True)
+    )
+
+(
+    GT(penguin_summary_table_morphology)
+    .tab_header(title="Morphology of Penguins of the Palmer Archipelago",
+                subtitle=f"{penguins_df['year'].min()} to {penguins_df['year'].max()}")
+    .fmt_number(columns=["bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"],
+                decimals=1)
+    .cols_hide(columns="year")
+    .cols_label(
+        bill_length_mm="Bill Length (mm)",
+        bill_depth_mm="Bill Depth (mm)",
+        flipper_length_mm="Flipper Length (mm)",
+        body_mass_g="Body Mass (g)"
+    )
+    )
+```
+
+## References
+
+### Artwork
+
+Artwork by [@allison_horst](https://allisonhorst.com/)
+
+### Measurements
+
+Gorman KB, Williams TD, Fraser WR (2014) Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus Pygoscelis). PLoS ONE 9(3): e90081. https://doi.org/10.1371/journal.pone.0090081
+
+Adélie penguins:
+
+Palmer Station Antarctica LTER and K. Gorman, 2020. Structural size measurements and isotopic signatures of foraging among adult male and female Adélie penguins (Pygoscelis adeliae) nesting along the Palmer Archipelago near Palmer Station, 2007-2009 ver 5. Environmental Data Initiative. https://doi.org/10.6073/pasta/98b16d7d563f265cb52372c8ca99e60f (Accessed 2020-06-08).
+
+Gentoo penguins:
+
+Palmer Station Antarctica LTER and K. Gorman, 2020. Structural size measurements and isotopic signatures of foraging among adult male and female Gentoo penguin (Pygoscelis papua) nesting along the Palmer Archipelago near Palmer Station, 2007-2009 ver 5. Environmental Data Initiative. https://doi.org/10.6073/pasta/7fca67fb28d56ee2ffa3d9370ebda689 (Accessed 2020-06-08).
+
+Chinstrap penguins:
+
+Palmer Station Antarctica LTER and K. Gorman, 2020. Structural size measurements and isotopic signatures of foraging among adult male and female Chinstrap penguin (Pygoscelis antarcticus) nesting along the Palmer Archipelago near Palmer Station, 2007-2009 ver 6. Environmental Data Initiative. https://doi.org/10.6073/pasta/c14dfcfada8ea13a17536e73eb6fbe9e (Accessed 2020-06-08).
+
+### Cleaned Dataset
+
+[Muhammad Chenariyan Nakhaee](https://github.com/mcnakhaee/palmerpenguins)
+
+### Text
+
+Text generated via [Perplexity AI](https://www.perplexity.ai/), with citations included where relevant.
+
+### NHS Quarto Theme
+
+Craig Shenton
+
+<https://github.com/nhs-r-community/quarto-report-nhs-theme>

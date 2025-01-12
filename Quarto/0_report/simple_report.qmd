@@ -1,0 +1,31 @@
+# Morphology of Penguins of the Antarctic
+
+```{python}
+import pandas as pd
+from palmerpenguins import load_penguins
+import plotly.express as px
+
+penguins_df = load_penguins()
+```
+
+Here is some text.
+
+## Show the Dataset
+
+```{python}
+penguins_df
+```
+
+## Show a plot
+
+```{python}
+px.bar(
+    penguins_df['species'].value_counts()
+)
+```
+
+## References
+
+### Cleaned Dataset
+
+Muhammad Chenariyan Nakhaee: <https://github.com/mcnakhaee/palmerpenguins>

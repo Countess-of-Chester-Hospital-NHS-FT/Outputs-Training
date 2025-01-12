@@ -1,0 +1,14 @@
+---
+title: Hello Quarto!
+format:
+    html:
+        embed-resources: true
+---
+
+```{python}
+1+1
+```
+
+It looks like this has worked.
+
+![](quarto_success.jpeg){width=500}
