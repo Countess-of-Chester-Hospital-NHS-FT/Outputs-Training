@@ -13,3 +13,5 @@ HTML files act as blueprints that tell web browsers (like Edge & Chrome) how to 
      * You could email it out them them just like any other file and they could open it in their browser
      * You could host it on the local network and anyone on the local network could visit it (like we do with SSRS reports) - try this using the Live Server extension for VSCode
      * You could host it on the web, for which you would need to install a web server or host the page on an external server
+
+HTML itself only deals with how things are displayed and static content and needs to work together with other languages in order to generate modern-looking dynamic content. This is why for analytics outputs you don't normally code the HTML yourself and you use packages that generate the HTML and may allow interactivity between a user and analytical code. These are packages like Streamlit (python), Shiny (R) and Quarto (python & R) that can produce professional looking applications and documents.
