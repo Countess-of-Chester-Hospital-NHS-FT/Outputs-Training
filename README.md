@@ -2,6 +2,7 @@
 Example code for creating web apps or html outputs using streamlit and quarto. This content is based on content from the [HSMA Programme](https://hsma-programme.github.io/hsma_site/).
 
 # Try out the code
+### Requirements: Install and test Anaconda and VSCode
 In order to run the code you will need to download a copy of this repo and see requirements in each section. Do this by clicking the big green 'Code' button top right and selecting 'Download ZIP' then unpack the files somewhere sensible on your computer, I would recommend somewhere on the C Drive rather than a shared drive.
 
 ## HTML
@@ -14,4 +15,28 @@ HTML files act as blueprints that tell web browsers (like Edge & Chrome) how to 
      * You could host it on the local network and anyone on the local network could visit it (like we do with SSRS reports) - try this using the Live Server extension for VSCode
      * You could host it on the web, for which you would need to install a web server or host the page on an external server
 
-HTML itself only deals with how things are displayed and static content and needs to work together with other languages in order to generate modern-looking dynamic content. This is why for analytics outputs you don't normally code the HTML yourself and you use packages that generate the HTML and may allow interactivity between a user and analytical code. These are packages like Streamlit (python), Shiny (R) and Quarto (python & R) that can produce professional looking applications and documents.
+HTML itself only deals with how things are displayed and needs to work together with other languages in order to generate modern-looking dynamic content. This is why for analytics outputs you don't normally code the HTML yourself and you use packages that generate the HTML and may allow interactivity between a user and analytical code. These are packages like Streamlit (python), Shiny (R) and Quarto (python & R) that can produce professional looking applications and documents.
+
+## Streamlit
+### Requirements: Create streamlit conda environment from environment.yml in Streamlit folder
+Streamlit allows you to create web apps in python, where users can interact dynamically with a model or analytical code. This makes it a good fit as an interface for Discrete Event Simulations. These apps can be hosted locally or on a web server. If an app contains no patient or otherwise sensitive data and doesn't take this data as inputs then it could be hosted for free on Streamlit Community Cloud.
+* Have a look at the [Streamlit gallery](https://streamlit.io/gallery) for the sort of thing you can create
+* Have a look at the non-elective flow simulation app
+* Run the basic example by:
+    * Choosing your streamlit conda environment in VSCode (Cntrl+Shift+P > choose interpreter)
+    * Opening a terminal in VSCode and making sure this terminal is inside the Streamlit/Basic folder
+    * using the command `streamlit run basic.py`
+* Run a slightly more involved example by doing the same thing in Streamlit/Penguin :penguin:
+* For more resources and examples see [HSMA Streamlit Module](https://hsma-programme.github.io/hsma_site/hsma_content/modules/current_module_details/7_git_and_web_development.html)
+
+## Quarto
+### Requirements: Download Quarto from the software centre, install the quarto extension for VSCode, create quarto conda environment from environment.yml in Quarto folder
+Like streamlit Quarto can produce websites and dashboards but it is particularly well suited to producing nice looking documents like reports or books. It can produce these in HTML or export to word or pdf. You can use Quarto with either R or Python.
+* Have a look at the [Quarto gallery](https://quarto.org/docs/gallery/) for the sort of things you can create
+* Test Quarto works for you:
+    * Choose your streamlit conda environment in VSCode (Cntrl+Shift+P > choose interpreter)
+    * Open quarto_test/hello_quarto.qmd
+    * Top right a little preview icon should have appeared, click this icon
+    * It might take a moment but the report should display on the right and a .html file should have appeared in the folder
+* Have a look at the other examples in the Quarto folder either by previewing the .qmd files in the same way or by looking at the .html files that are already there
+* For more resources and examples see [HSMA Quarto Module](https://hsma-programme.github.io/hsma_site/hsma_content/modules/current_module_details/8_modern_analytics.html)
