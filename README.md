@@ -1,4 +1,4 @@
-# Outputs_Training
+# Outputs Training
 Example code for creating web apps or html outputs using streamlit and quarto. This content is based on content from the [HSMA Programme](https://hsma-programme.github.io/hsma_site/).
 
 # Try out the code
