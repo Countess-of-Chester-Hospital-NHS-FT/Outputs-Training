@@ -20,4 +20,3 @@ dependencies:
     - wordcloud==1.9.3
     - openpyxl
     - nbformat>=4.2.0
-    - fiona==1.9.0
