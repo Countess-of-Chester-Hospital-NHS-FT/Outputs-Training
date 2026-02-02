@@ -6,7 +6,6 @@ plotly==5.23.0
 streamlit==1.37.0
 streamlit_folium==0.22.0
 folium==0.17.0
-geopandas==1.0.1
 palmerpenguins==0.1.4
 ipykernel==6.29.5
 ipython==8.27.0
